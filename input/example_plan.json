@@ -1,0 +1,15 @@
+{
+  "project_name": "example_api",
+  "tech_stack": {"language": "python", "framework": "fastapi"},
+  "phases": [{
+    "phase_id": 1,
+    "name": "Core",
+    "modules": [{
+      "module_id": "auth",
+      "name": "Authentication",
+      "dependencies": [],
+      "files": ["auth/handlers.py"],
+      "description": "JWT authentication"
+    }]
+  }]
+}
