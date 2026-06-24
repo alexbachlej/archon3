@@ -1,0 +1,24 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: |
+          OPENAI_API_KEY=ci-dummy ANTHROPIC_API_KEY=ci-dummy \
+          python -c "
+          from core.models import DeploymentPlan, ArchitectureBlueprint
+          from core.config import config
+          import json, pathlib
+          plan_data = json.loads(pathlib.Path('input/example_plan.json').read_text())
+          plan = DeploymentPlan(**plan_data)
+          assert plan.project_name == 'example_api'
+          print('smoke OK')
+          "
